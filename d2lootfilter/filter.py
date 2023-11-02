@@ -1,3 +1,4 @@
+from argparse import ArgumentParser
 from pathlib import Path
 import sys
 from d2lootfilter import data
@@ -7,19 +8,25 @@ from d2lootfilter.writer import FilterRemover, FilterRuleWriter
 
 
 def main():
-    # TODO: Parse args
-    data_dir = Path("C:\\Program Files (x86)\\Diablo II Resurrected\\Data")
+    parser = ArgumentParser()
+    parser.add_argument("filter")
+    parser.add_argument("data_dir")
+    args = parser.parse_args()
+    filter = args.filter
+    data_dir = Path(args.data_dir)
 
     # Remove any previous rules
     remover = FilterRemover(data_dir)
     remover.remove_all_rules()
+    if filter == "remove":
+        return
 
     # Init data
     data.init(data_dir)
 
     # Parse filter for rules
     rules = []
-    with open("example.filter") as f:
+    with open(filter) as f:
         lines = f.read().splitlines()
         instructions = parse_format(lines)
         for instr in instructions:

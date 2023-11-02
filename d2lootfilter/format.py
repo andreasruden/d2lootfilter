@@ -1,3 +1,4 @@
+from dataclasses import dataclass, field
 from enum import Enum
 import re
 
@@ -20,6 +21,7 @@ class Property(str, Enum):
     To = "To"  # only for verb Rename
     AddVfx = "AddVfx"
     PlaySound = "PlaySound"
+    TextColor = "TextColor"
 
 
 class Class(str, Enum):
@@ -33,6 +35,7 @@ class Class(str, Enum):
     Amulet = "Amulet"
     Belt = "Belt"
     Rune = "Rune"
+    Potion = "Potion"
     # TODO: Add missing classes
 
 
@@ -42,18 +45,30 @@ class RelationalOp(str, Enum):
 
 class VisualEffect(str, Enum):
     Beam = "Beam"
+    Glitter = "Glitter"
+    Flash = "Flash"
 
 
+class Color(str, Enum):
+    Red = "Red"
+    Blue = "Blue"
+    Purple = "Purple"
+
+
+@dataclass
 class FilterRule:
-    def __init__(self, source_line: int, verb: Verb, props: list[tuple[Property, str]]):
-        self.source_line = source_line
-        self.base_types = None
-        self.class_bases = None
-        self.rename = None
-        self.vfx = []
-        self.sounds = []
-        self.verb = verb
-        for prop in props:
+    verb: Verb
+    source_line: int
+    props: list[tuple[Property, str]]
+    base_types: list[str] | None = None
+    class_bases: list[str] | None = None
+    vfx: list[VisualEffect] = field(default_factory=list)
+    sounds: list[str] = field(default_factory=list)
+    rename: str | None = None
+    text_color: Color | None = None
+
+    def __post_init__(self):
+        for prop in self.props:
             proptype, args = prop
             self.eval_prop(proptype, args)
 
@@ -75,6 +90,8 @@ class FilterRule:
                 self._add_vfx(args)
             case Property.PlaySound:
                 self._play_sound(args)
+            case Property.TextColor:
+                self._text_color(args)
             case _:
                 raise NotImplementedError()
 
@@ -95,7 +112,7 @@ class FilterRule:
                     found = True
             for runeitem in data.item_runes():
                 if (
-                    re.match(r"r[0-9][0-9]", runeitem["Key"])
+                    re.match(r"^r[0-9][0-9]$", runeitem["Key"])
                     and (not op and arg in runeitem["enUS"])
                     or (op and arg == runeitem["enUS"])
                 ):
@@ -143,6 +160,18 @@ class FilterRule:
 
     def _play_sound(self, args):
         raise NotImplementedError()
+
+    def _text_color(self, args):
+        arg, rest = self._arg_next_literal(args, False)
+        try:
+            color = Color(arg)
+        except ValueError:
+            raise FormatError(f"Format error @ rule starting on line {self.source_line}: Invalid color {arg!r}.")
+        if len(rest) > 0:
+            raise FormatError(
+                f"Format error @ rule starting on line {self.source_line}: Trailing data after 'TextColor'"
+            )
+        self.text_color = color
 
     def _arg_str(self, args, optional=False):
         if len(args) > 0 and args[0] == '"':

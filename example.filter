@@ -1,0 +1,76 @@
+Show
+    BaseType "Mal" "Ist" "Gul" "Vex" "Ohm" "Lo" "Sur" "Ber" "Jah" "Cham" "Zod"
+    Class "Rune"
+    AddVfx Beam
+    AddVfx Glitter
+    AddVfx Flash
+
+Hide
+    BaseType "Gas" "Thawing" "Antidote" "Fulminating" "Exploding" "Oil" "Stamina"
+    Class "Potion"
+
+Rename
+    BaseType "Small Charm" "Grand Charm"
+    To "** $BaseType$ **"
+
+Rename
+    BaseType == "Dusk Shroud" "Mage Plate" "Archon Plate" "Vortex Shield" "Sacred Targe" "Monarch" "Phase Blade" "Berserker Axe"
+    To "++ $BaseType$ ++"
+
+Rename
+    BaseType == "Thresher" "Cryptic Axe" "Colossus Voulge" "Giant Thresher" "Sacred Armor" "Lacquered Plate" "Hellforge Plate" "Kraken Shell" "Balrog Skin" "Boneweave" "Great Hauberk" "Loricated Mail"
+    To "[eth?] $BaseType$"
+
+# Healing Potions
+Rename
+    BaseType == "Minor Healing Potion"
+    To "hp1"
+    TextColor Red
+Rename
+    BaseType == "Light Healing Potion"
+    To "hp2"
+    TextColor Red
+Rename
+    BaseType == "Healing Potion"
+    To "hp3"
+    TextColor Red
+Rename
+    BaseType == "Greater Healing Potion"
+    To "hp4"
+    TextColor Red
+Rename
+    BaseType == "Super Healing Potion"
+    To "HP5"
+    TextColor Red
+
+# Mana Potions
+Rename
+    BaseType == "Minor Mana Potion"
+    To "mp1"
+    TextColor Blue
+Rename
+    BaseType == "Light Mana Potion"
+    To "mp2"
+    TextColor Blue
+Rename
+    BaseType == "Mana Potion"
+    To "mp3"
+    TextColor Blue
+Rename
+    BaseType == "Greater Mana Potion"
+    To "mp4"
+    TextColor Blue
+Rename
+    BaseType == "Super Mana Potion"
+    To "MP5"
+    TextColor Blue
+
+# Rejuvenation Potions
+Rename
+    BaseType == "Rejuvenation Potion"
+    To "rp"
+    TextColor Purple
+Rename
+    BaseType == "Full Rejuvenation Potion"
+    To "** FP **"
+    TextColor Purple

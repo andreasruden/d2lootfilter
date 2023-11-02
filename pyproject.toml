@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "d2lootfilter"
+version = "0.1.0"
+authors = [
+    {name = "Andreas", email="andreasruden91@gmail.com"},
+]
+description = "basic loot filter for d2 inspired by PoE"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+
+]
+requires-python = ">=3.10"
+license = {text = "GPLv3 License"}
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "black",
+]
+
+[project.scripts]
+d2filter = "d2lootfilter.filter:main"
+
+[tool.black]
+line-length = 120

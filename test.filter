@@ -1,0 +1,11 @@
+Show
+    BaseType "Mal" "Ist" "Gul" "Vex" "Ohm" "Lo" "Sur" "Ber" "Jah" "Cham" "Zod"
+    Class "Rune"
+    AddVfx Beam
+
+Hide
+    BaseType == "Key"
+
+Rename
+    BaseType "Charm"
+    To "** $BaseType$ **"
